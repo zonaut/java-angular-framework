@@ -69,7 +69,7 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 
 	// application-ui dependency so it can be packaged in this project
-	implementation project(':application-ui')
+//	implementation project(':application-ui')
 
 }
 
