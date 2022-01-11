@@ -1,0 +1,4 @@
+rootProject.name = 'java-angular-framework'
+
+include 'application-ui'
+include 'application-sb-reactive'
