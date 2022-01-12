@@ -2,6 +2,7 @@ package com.zonaut.sbreactive;
 
 import com.zonaut.sbreactive.domain.Todo;
 import com.zonaut.sbreactive.to.CreateTodo;
+import com.zonaut.sbreactive.to.UpdateTodo;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -45,6 +46,16 @@ public class TodoTestConstants {
     public static CreateTodo.Builder createTodoBuilder() {
         return CreateTodo.newBuilder()
             .withTitle(TODO_TITLE);
+    }
+
+    public static UpdateTodo updateTodo() {
+        return updateTodoBuilder()
+            .build();
+    }
+
+    public static UpdateTodo.Builder updateTodoBuilder() {
+        return UpdateTodo.newBuilder()
+            .withTitle(ANOTHER_TODO_TITLE);
     }
 
 }

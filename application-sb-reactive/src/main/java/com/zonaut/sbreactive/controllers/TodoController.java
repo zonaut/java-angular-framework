@@ -3,6 +3,7 @@ package com.zonaut.sbreactive.controllers;
 import com.zonaut.sbreactive.domain.Todo;
 import com.zonaut.sbreactive.repositories.TodoRepository;
 import com.zonaut.sbreactive.to.CreateTodo;
+import com.zonaut.sbreactive.to.UpdateTodo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -69,7 +70,7 @@ public class TodoController {
 
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Todo>> updateTodo(@RequestBody CreateTodo createTodo, @PathVariable UUID id) {
+    public Mono<ResponseEntity<Todo>> updateTodo(@RequestBody UpdateTodo updateTodo, @PathVariable UUID id) {
         return todoRepository.findById(id)
             .flatMap(existingTodo -> {
                 existingTodo.setDone(true);

@@ -4,7 +4,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {CreateTodo} from './create-todo';
-import {apiPaths} from '../config';
+import {apiPaths} from '../../config';
+import {UpdateTodo} from './update-todo';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -45,8 +46,8 @@ export class TodoService {
     );
   }
 
-  updateTodo(todo: Todo): Observable<Todo> {
-    return this.http.put<Todo>(apiPaths.todos + `${todo.id}`, todo, httpOptions).pipe(
+  updateTodo(id: string, updateTodo: UpdateTodo): Observable<Todo> {
+    return this.http.put<Todo>(apiPaths.todos + `${id}`, updateTodo, httpOptions).pipe(
       tap(todo => console.log(todo)),
       catchError(this.handleError<Todo>())
     );
@@ -54,7 +55,9 @@ export class TodoService {
 
   toggleTodoComplete(todo: Todo) {
     todo.done = !todo.done;
-    return this.updateTodo(todo);
+    return this.updateTodo(todo.id, <UpdateTodo>{
+      title: todo.title
+    });
   }
 
   private handleError<T>(result?: T) {
