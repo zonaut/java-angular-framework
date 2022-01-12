@@ -14,6 +14,8 @@ You can use https://sdkman.io/ to easily switch between versions
 
 Start application-sb-reactive and application-ui from the IDE or whatever method you prefer.
 
+Swagger is available on http://localhost:8080/webjars/swagger-ui/index.html
+
 == Build
 
 The tests are using testcontainers on a fixed port for now so make sure you run `docker-compose down` before building
