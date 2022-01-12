@@ -67,10 +67,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation "org.testcontainers:r2dbc:${testContainersR2dbc}"
+	testImplementation "org.testcontainers:postgresql:${testContainersPostgresqlVersion}"
 
-	// application-ui dependency so it can be packaged in this project
+	// include this if you want the UI to be packaged in this jar
+	// ! this needs to be the last line here
 //	implementation project(':application-ui')
-
 }
 
 test {

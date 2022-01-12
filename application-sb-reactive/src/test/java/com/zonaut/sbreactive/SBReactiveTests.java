@@ -1,10 +1,12 @@
 package com.zonaut.sbreactive;
 
 import com.zonaut.sbreactive.domain.Todo;
+import com.zonaut.sbreactive.extensions.FixedPortDatabaseTestContainersExtension;
 import com.zonaut.sbreactive.to.CreateTodo;
 import com.zonaut.sbreactive.to.UpdateTodo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import static com.zonaut.sbreactive.TodoTestConstants.todo;
 import static com.zonaut.sbreactive.controllers.TodoController.API_V_1_TODOS;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(FixedPortDatabaseTestContainersExtension.class)
 public class SBReactiveTests {
 
     @Autowired
@@ -103,14 +106,14 @@ public class SBReactiveTests {
             });
     }
 
-    @Test
-    public void testDeleteTodo() {
-        UUID uuid = UUID.fromString("238dbbba-99de-4531-afe8-973120607330");
-
-        webTestClient.delete()
-            .uri("/api/v1/todos/{id}", uuid.toString())
-            .exchange()
-            .expectStatus().isOk();
-    }
+//    @Test
+//    public void testDeleteTodo() {
+//        UUID uuid = UUID.fromString("238dbbba-99de-4531-afe8-973120607330");
+//
+//        webTestClient.delete()
+//            .uri("/api/v1/todos/{id}", uuid.toString())
+//            .exchange()
+//            .expectStatus().isOk();
+//    }
 
 }
