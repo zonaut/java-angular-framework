@@ -2,6 +2,8 @@
 
 This is a WIP while playing around with Spring Boot reactive and test containers.
 
+link:TODO.adoc[TODO]
+
 == Requirements
 
 - Java 17
@@ -18,10 +20,9 @@ Swagger is available on http://localhost:8080/webjars/swagger-ui/index.html
 
 == Build
 
-The tests are using testcontainers on a fixed port for now so make sure you run `docker-compose down` before building
+The tests are using testcontainers on a fixed port for now so make sure you run `docker-compose down` before building.
 
-Uncomment 'implementation project(':application-ui')' in application-sb-reactive/build.gradle.
-This will include the Angular UI in the same jar as the backend.
+Set includeUIinBackend to true in gradle.properties to include the UI in the backend jar if you want to run front and backend from a single jar.
 
     ./gradlew clean build
 

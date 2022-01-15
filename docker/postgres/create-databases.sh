@@ -4,12 +4,6 @@
 # Create databases
 # ====================================================================================================================
 
-# TODO
-
-# GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_user;
-
-# ----------
-
 set -e
 set -u
 

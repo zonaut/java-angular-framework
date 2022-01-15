@@ -14,7 +14,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: "com.adarshr.test-logger"
+apply plugin: 'com.adarshr.test-logger'
 
 group = "${group}"
 version = "${version}"
@@ -51,12 +51,6 @@ dependencies {
 	// API doc
 	implementation "org.springdoc:springdoc-openapi-webflux-ui:${springOpenApiVersion}"
 
-	// Fake data / stub generators
-	implementation ("com.github.javafaker:javafaker:${javaFakerVersion}") {
-		exclude group: 'org.yaml' // Can cause problems, so exclude it
-	}
-	implementation "com.devskiller:jfairy:${jFairyVersion}"
-
 	// Jackson afterburner
 	implementation "com.fasterxml.jackson.module:jackson-module-afterburner:${jacksonVersion}"
 	// Spatial data types for Jackson
@@ -70,9 +64,10 @@ dependencies {
 	testImplementation "org.testcontainers:r2dbc:${testContainersR2dbc}"
 	testImplementation "org.testcontainers:postgresql:${testContainersPostgresqlVersion}"
 
-	// include this if you want the UI to be packaged in this jar
 	// ! this needs to be the last line here
-//	implementation project(':application-ui')
+	if (includeUIinBackend.toBoolean()) {
+		implementation project(':application-ui')
+	}
 }
 
 test {
@@ -81,7 +76,7 @@ test {
 
 // https://github.com/radarsh/gradle-test-logger-plugin
 testlogger {
-	showFullStackTraces false
+	showFullStackTraces true
 	slowThreshold 0
 	showFailedStandardStreams true
 }

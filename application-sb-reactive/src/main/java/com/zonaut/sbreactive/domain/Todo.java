@@ -2,6 +2,7 @@ package com.zonaut.sbreactive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zonaut.sbreactive.common.ViewObject;
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
@@ -12,6 +13,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Table(Todo.TABLE_NAME)
+@Getter
 public class Todo extends ViewObject implements Persistable<UUID> {
 
     public static final String TABLE_NAME = "todos";
@@ -23,7 +25,7 @@ public class Todo extends ViewObject implements Persistable<UUID> {
     public static final String DONE = "done";
 
     @Id
-    @Column(value = ID)
+    @Column(ID)
     private UUID id;
 
     @Column(CREATED_AT)
@@ -51,35 +53,15 @@ public class Todo extends ViewObject implements Persistable<UUID> {
     @Override
     @JsonIgnore
     public boolean isNew() {
-        return this.getCreatedAt() == null;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public boolean isDone() {
-        return done;
+        return this.createdAt == null;
     }
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     @Override
@@ -131,5 +113,16 @@ public class Todo extends ViewObject implements Persistable<UUID> {
         public Todo build() {
             return new Todo(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+            "id=" + id +
+            ", createdAt=" + createdAt +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", done=" + done +
+            '}';
     }
 }

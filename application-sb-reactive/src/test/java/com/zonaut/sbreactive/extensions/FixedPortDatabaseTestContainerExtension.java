@@ -12,7 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FixedPortDatabaseTestContainersExtension implements BeforeAllCallback {
+public class FixedPortDatabaseTestContainerExtension implements BeforeAllCallback {
 
     private static final AtomicBoolean started = new AtomicBoolean(false);
 

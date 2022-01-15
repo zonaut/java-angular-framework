@@ -1,9 +1,9 @@
 package com.zonaut.sbreactive.controllers;
 
+import com.zonaut.sbreactive.controllers.TransferObjects.CreateTodoTO;
+import com.zonaut.sbreactive.controllers.TransferObjects.UpdateTodoTO;
 import com.zonaut.sbreactive.domain.Todo;
 import com.zonaut.sbreactive.repositories.TodoRepository;
-import com.zonaut.sbreactive.to.CreateTodo;
-import com.zonaut.sbreactive.to.UpdateTodo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import static com.zonaut.sbreactive.controllers.TodoController.API_V_1_TODOS;
@@ -51,11 +50,11 @@ public class TodoController {
 
     @PostMapping()
     @ResponseStatus(CREATED)
-    public Mono<Todo> createTodo(@RequestBody CreateTodo createTodo) {
+    public Mono<Todo> createTodo(@RequestBody CreateTodoTO createTodoTO) {
         Todo todo = Todo.newBuilder()
             .withId(UUID.randomUUID())
-            .withTitle(createTodo.getTitle())
-            .withContent(createTodo.getTitle())
+            .withTitle(createTodoTO.title())
+            .withContent(createTodoTO.title())
             .withDone(false)
             .build();
 
@@ -70,7 +69,7 @@ public class TodoController {
 
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Todo>> updateTodo(@RequestBody UpdateTodo updateTodo, @PathVariable UUID id) {
+    public Mono<ResponseEntity<Todo>> updateTodo(@RequestBody UpdateTodoTO updateTodoTO, @PathVariable UUID id) {
         return todoRepository.findById(id)
             .flatMap(existingTodo -> {
                 existingTodo.setDone(true);
