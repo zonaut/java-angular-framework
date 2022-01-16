@@ -17,6 +17,8 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 import static com.zonaut.sbreactive.controllers.TodoController.API_V_1_TODOS;
+import static com.zonaut.sbreactive.controllers.TransferObjects.VALIDATION_ERROR_TODO_DUPLICATE_TITLE;
+import static com.zonaut.sbreactive.controllers.TransferObjects.VALIDATION_ERROR_TODO_INVALID_TITLE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(FixedPortDatabaseTestContainerExtension.class)
@@ -59,7 +61,8 @@ public class TodoControllerTest {
     @Test
     public void updateTodo() {
         Todo createdTodo = createTodo(new CreateTodoTO(UUID.randomUUID().toString()));
-        UpdateTodoTO updateTodoTO = new UpdateTodoTO(UUID.randomUUID().toString());
+        String newTitle = UUID.randomUUID().toString();
+        UpdateTodoTO updateTodoTO = new UpdateTodoTO(newTitle);
 
         webTestClient.put()
                 .uri(API_V_1_TODOS_ON_ID, createdTodo.getId())
@@ -71,6 +74,7 @@ public class TodoControllerTest {
                 .expectBody(Todo.class)
                 .consumeWith(updateResponse -> {
                     Assertions.assertThat(updateResponse.getResponseBody()).isNotNull();
+                    Assertions.assertThat(updateResponse.getResponseBody().getTitle()).isEqualTo(newTitle);
                     Assertions.assertThat(updateResponse.getResponseBody().isDone()).isEqualTo(true);
                 });
     }
@@ -89,7 +93,35 @@ public class TodoControllerTest {
                 .expectStatus().isBadRequest()
                 .expectBodyList(ValidationError.class)
                 .consumeWith(errors -> {
-                    Assertions.assertThat(errors.getResponseBody()).hasSize(1);
+                    Assertions.assertThat(errors.getResponseBody()).isNotNull();
+                    Assertions.assertThat(errors.getResponseBody().size()).isEqualTo(1);
+                    Assertions.assertThat(errors.getResponseBody().get(0).field()).isEqualTo(Todo.TITLE);
+                    Assertions.assertThat(errors.getResponseBody().get(0).error()).isEqualTo(VALIDATION_ERROR_TODO_INVALID_TITLE);
+                });
+    }
+
+    @Test
+    public void updateTodo_withDuplicateTitle_expectError() {
+        Todo createdTodo = createTodo(new CreateTodoTO(UUID.randomUUID().toString()));
+
+        String anotherTitle = UUID.randomUUID().toString();
+        createTodo(new CreateTodoTO(anotherTitle));
+
+        UpdateTodoTO updateTodoTO = new UpdateTodoTO(anotherTitle);
+
+        webTestClient.put()
+                .uri(API_V_1_TODOS_ON_ID, createdTodo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(updateTodoTO), UpdateTodoTO.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBodyList(ValidationError.class)
+                .consumeWith(errors -> {
+                    Assertions.assertThat(errors.getResponseBody()).isNotNull();
+                    Assertions.assertThat(errors.getResponseBody().size()).isEqualTo(1);
+                    Assertions.assertThat(errors.getResponseBody().get(0).field()).isEqualTo(Todo.TITLE);
+                    Assertions.assertThat(errors.getResponseBody().get(0).error()).isEqualTo(VALIDATION_ERROR_TODO_DUPLICATE_TITLE);
                 });
     }
 
@@ -119,7 +151,31 @@ public class TodoControllerTest {
                 .expectStatus().isBadRequest()
                 .expectBodyList(ValidationError.class)
                 .consumeWith(errors -> {
-                    Assertions.assertThat(errors.getResponseBody()).hasSize(1);
+                    Assertions.assertThat(errors.getResponseBody()).isNotNull();
+                    Assertions.assertThat(errors.getResponseBody().size()).isEqualTo(1);
+                    Assertions.assertThat(errors.getResponseBody().get(0).field()).isEqualTo(Todo.TITLE);
+                    Assertions.assertThat(errors.getResponseBody().get(0).error()).isEqualTo(VALIDATION_ERROR_TODO_INVALID_TITLE);
+                });
+    }
+
+    @Test
+    public void createTodo_withDuplicateTitle_expectError() {
+        CreateTodoTO createTodoTO = new CreateTodoTO(UUID.randomUUID().toString());
+
+        createTodo(createTodoTO);
+
+        webTestClient.post().uri(API_V_1_TODOS)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(createTodoTO), CreateTodoTO.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBodyList(ValidationError.class)
+                .consumeWith(errors -> {
+                    Assertions.assertThat(errors.getResponseBody()).isNotNull();
+                    Assertions.assertThat(errors.getResponseBody().size()).isEqualTo(1);
+                    Assertions.assertThat(errors.getResponseBody().get(0).field()).isEqualTo(Todo.TITLE);
+                    Assertions.assertThat(errors.getResponseBody().get(0).error()).isEqualTo(VALIDATION_ERROR_TODO_DUPLICATE_TITLE);
                 });
     }
 

@@ -4,10 +4,14 @@
 
 <section class="todoapp">
 
+  <section *ngIf="errorMessage">
+    <p style="color: red">{{errorMessage | json}}</p>
+  </section>
+
   <header class="header">
     <input class="new-todo" placeholder="Provide a title please?" autofocus=""
            [(ngModel)]="createTodo.title"
-           (keyup.enter)="addTodo(createTodo)">
+           (keyup.enter)="addTodo(createTodo)" (ngModelChange)="resetError()">
   </header>
 
   <section class="main" *ngIf="todos.length > 0">

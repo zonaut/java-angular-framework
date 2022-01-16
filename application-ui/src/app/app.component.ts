@@ -11,6 +11,7 @@ import {TodoService} from './shared/todos/todo.service';
 export class AppComponent implements OnInit {
 
   title = 'application-ui';
+  errorMessage: string = '';
 
   todos: Todo[] = [];
 
@@ -32,19 +33,23 @@ export class AppComponent implements OnInit {
   }
 
   addTodo(createTodo: CreateTodo) {
+    this.resetError();
     this.todoService
-      .addTodo(createTodo)
-      .subscribe(
-        (newTodo) => {
-          this.todos = this.todos.concat(newTodo);
-          this.createTodo = <CreateTodo>{
-            title: ''
-          }
+      .addTodo(createTodo).subscribe({
+      next: value => {
+        this.todos = this.todos.concat(value);
+        this.createTodo = <CreateTodo>{
+          title: ''
         }
-      );
+      },
+      error: err => {
+        this.errorMessage = err.error
+      }
+    });
   }
 
   toggleTodoComplete(todo: Todo) {
+    this.resetError();
     this.todoService
       .toggleTodoComplete(todo)
       .subscribe(
@@ -55,6 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   removeTodo(todo: Todo) {
+    this.resetError();
     this.todoService
       .deleteTodoById(todo.id)
       .subscribe(
@@ -62,5 +68,9 @@ export class AppComponent implements OnInit {
           this.todos = this.todos.filter((t) => t.id !== todo.id);
         }
       );
+  }
+
+  resetError() {
+    this.errorMessage = '';
   }
 }

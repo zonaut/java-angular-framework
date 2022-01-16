@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Todo} from './todo';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {CreateTodo} from './create-todo';
 import {apiPaths} from '../../config';
 import {UpdateTodo} from './update-todo';
@@ -20,37 +19,23 @@ export class TodoService {
   }
 
   getAllTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(apiPaths.todos, httpOptions).pipe(
-      tap(todos => console.log(todos)),
-      catchError(this.handleError([]))
-    );
+    return this.http.get<Todo[]>(apiPaths.todos, httpOptions);
   }
 
   getTodoById(id: number): Observable<Todo> {
-    return this.http.get<Todo>(apiPaths.todos + `${id}`, httpOptions).pipe(
-      tap(todo => console.log(todo)),
-      catchError(this.handleError<Todo>())
-    );
+    return this.http.get<Todo>(apiPaths.todos + `${id}`, httpOptions);
   }
 
   addTodo(createTodo: CreateTodo): Observable<Todo> {
-    return this.http.post<Todo>(apiPaths.todos, createTodo, httpOptions).pipe(
-      tap(todo => console.log(todo)),
-      catchError(this.handleError<Todo>())
-    );
+    return this.http.post<Todo>(apiPaths.todos, createTodo, httpOptions);
   }
 
   deleteTodoById(id: string): Observable<null> {
-    return this.http.delete<null>(apiPaths.todos + `${id}`, httpOptions).pipe(
-      catchError(this.handleError<null>())
-    );
+    return this.http.delete<null>(apiPaths.todos + `${id}`, httpOptions);
   }
 
   updateTodo(id: string, updateTodo: UpdateTodo): Observable<Todo> {
-    return this.http.put<Todo>(apiPaths.todos + `${id}`, updateTodo, httpOptions).pipe(
-      tap(todo => console.log(todo)),
-      catchError(this.handleError<Todo>())
-    );
+    return this.http.put<Todo>(apiPaths.todos + `${id}`, updateTodo, httpOptions);
   }
 
   toggleTodoComplete(todo: Todo) {
@@ -58,12 +43,5 @@ export class TodoService {
     return this.updateTodo(todo.id, <UpdateTodo>{
       title: todo.title
     });
-  }
-
-  private handleError<T>(result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      return of(result as T);
-    };
   }
 }

@@ -1,10 +1,12 @@
 package com.zonaut.sbreactive.controllers;
 
+import com.zonaut.sbreactive.common.exceptions.DuplicateFieldException;
 import com.zonaut.sbreactive.controllers.TransferObjects.CreateTodoTO;
 import com.zonaut.sbreactive.controllers.TransferObjects.UpdateTodoTO;
 import com.zonaut.sbreactive.domain.Todo;
 import com.zonaut.sbreactive.repositories.TodoRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -14,6 +16,8 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 import static com.zonaut.sbreactive.controllers.TodoController.API_V_1_TODOS;
+import static com.zonaut.sbreactive.controllers.TransferObjects.VALIDATION_ERROR_TODO_DUPLICATE_TITLE;
+import static com.zonaut.sbreactive.domain.Todo.TITLE;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Log4j2
@@ -51,17 +55,30 @@ public class TodoController {
                 .withDone(false)
                 .build();
 
-        return todoRepository.save(todo);
+        return todoRepository.save(todo)
+                .onErrorMap(throwable -> {
+                    if (throwable instanceof DataIntegrityViolationException) {
+                        throw new DuplicateFieldException(TITLE, VALIDATION_ERROR_TODO_DUPLICATE_TITLE);
+                    }
+                    throw new RuntimeException(throwable);
+                });
     }
 
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Todo>> updateTodo(@Valid @RequestBody UpdateTodoTO updateTodoTO, @PathVariable UUID id) {
         return todoRepository.findById(id)
                 .flatMap(existingTodo -> {
+                    existingTodo.setTitle(updateTodoTO.title());
                     existingTodo.setDone(true);
                     return todoRepository.save(existingTodo);
                 })
                 .map(ResponseEntity::ok)
+                .onErrorMap(throwable -> {
+                    if (throwable instanceof DataIntegrityViolationException) {
+                        throw new DuplicateFieldException(TITLE, VALIDATION_ERROR_TODO_DUPLICATE_TITLE);
+                    }
+                    throw new RuntimeException(throwable);
+                })
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 

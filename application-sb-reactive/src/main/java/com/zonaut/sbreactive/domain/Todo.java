@@ -56,6 +56,10 @@ public class Todo extends ViewObject implements Persistable<UUID> {
         return this.createdAt == null;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setDone(boolean done) {
         this.done = done;
     }
