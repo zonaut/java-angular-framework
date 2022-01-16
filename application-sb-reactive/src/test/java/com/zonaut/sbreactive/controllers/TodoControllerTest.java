@@ -134,7 +134,6 @@ public class TodoControllerTest {
                 .consumeWith(response -> {
                     Assertions.assertThat(response.getResponseBody()).isNotNull();
                     Assertions.assertThat(response.getResponseBody().getId()).isNotNull();
-//                Assertions.assertThat(response.getResponseBody().getCreatedAt()).isNotNull();
                     Assertions.assertThat(response.getResponseBody().getTitle()).isEqualTo(createTodoTO.title());
                 })
                 .returnResult()

@@ -54,7 +54,6 @@ public class TodoController {
         return todoRepository.save(todo);
     }
 
-
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Todo>> updateTodo(@Valid @RequestBody UpdateTodoTO updateTodoTO, @PathVariable UUID id) {
         return todoRepository.findById(id)
