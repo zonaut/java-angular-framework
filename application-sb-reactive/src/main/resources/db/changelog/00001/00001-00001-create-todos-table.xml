@@ -14,6 +14,7 @@
     <changeSet id="loadTodoData" author="${author}" context="stubs">
         <loadData file="stubs/00001-00001-todos.csv" relativeToChangelogFile="true" tableName="todos">
             <column name="done" type="BOOLEAN" /> <!-- Needed for loading the csv -->
+            <column name="priority" type="OTHER" /> <!-- Needed for loading the csv -->
         </loadData>
     </changeSet>
 

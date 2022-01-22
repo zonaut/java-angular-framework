@@ -2,6 +2,7 @@ package com.zonaut.sbreactive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zonaut.sbreactive.common.ViewObject;
+import com.zonaut.sbreactive.types.TodoPriority;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
@@ -22,6 +23,8 @@ public class Todo extends ViewObject implements Persistable<UUID> {
     public static final String CREATED_AT = "created_at";
     public static final String TITLE = "title";
     public static final String CONTENT = "content";
+    public static final String DATA = "data";
+    public static final String PRIORITY = "priority";
     public static final String DONE = "done";
 
     @Id
@@ -37,17 +40,16 @@ public class Todo extends ViewObject implements Persistable<UUID> {
     @Column(CONTENT)
     private String content;
 
+    @Column(DATA)
+    private TodoData data;
+
+    @Column(PRIORITY)
+    private TodoPriority priority;
+
     @Column(DONE)
     private boolean done;
 
     private Todo() {
-    }
-
-    private Todo(Builder builder) {
-        id = builder.id;
-        title = builder.title;
-        content = builder.content;
-        done = builder.done;
     }
 
     @Override
@@ -62,6 +64,16 @@ public class Todo extends ViewObject implements Persistable<UUID> {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    private Todo(Builder builder) {
+        id = builder.id;
+        createdAt = builder.createdAt;
+        title = builder.title;
+        content = builder.content;
+        data = builder.data;
+        priority = builder.priority;
+        done = builder.done;
     }
 
     public static Builder newBuilder() {
@@ -85,10 +97,24 @@ public class Todo extends ViewObject implements Persistable<UUID> {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Todo{" +
+            "id=" + id +
+            ", createdAt=" + createdAt +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", done=" + done +
+            '}';
+    }
+
     public static final class Builder {
         private UUID id;
+        private Instant createdAt;
         private String title;
         private String content;
+        private TodoData data;
+        private TodoPriority priority;
         private boolean done;
 
         private Builder() {
@@ -96,6 +122,11 @@ public class Todo extends ViewObject implements Persistable<UUID> {
 
         public Builder withId(UUID id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder withCreatedAt(Instant createdAt) {
+            this.createdAt = createdAt;
             return this;
         }
 
@@ -109,6 +140,16 @@ public class Todo extends ViewObject implements Persistable<UUID> {
             return this;
         }
 
+        public Builder withData(TodoData data) {
+            this.data = data;
+            return this;
+        }
+
+        public Builder withPriority(TodoPriority priority) {
+            this.priority = priority;
+            return this;
+        }
+
         public Builder withDone(boolean done) {
             this.done = done;
             return this;
@@ -117,16 +158,5 @@ public class Todo extends ViewObject implements Persistable<UUID> {
         public Todo build() {
             return new Todo(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Todo{" +
-            "id=" + id +
-            ", createdAt=" + createdAt +
-            ", title='" + title + '\'' +
-            ", content='" + content + '\'' +
-            ", done=" + done +
-            '}';
     }
 }

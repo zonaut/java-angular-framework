@@ -9,6 +9,9 @@
 
     <property name="author" value="zonaut"/>
 
+    <!-- Types -->
+    <include relativeToChangelogFile="true" file="types/todo-priority.xml" />
+
     <!-- Table versioned main log -->
     <include relativeToChangelogFile="true" file="00001/changelog-00001.xml"/>
 

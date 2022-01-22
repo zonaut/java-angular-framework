@@ -26,6 +26,14 @@ spring:
     username: postgres
     password: password
 
+# Todo check if we can't reuse existing properties
+postgres:
+  host: localhost
+  port: 5434
+  database: sb-reactive
+  username: postgres
+  password: password
+
 logging:
   level:
     root: INFO
