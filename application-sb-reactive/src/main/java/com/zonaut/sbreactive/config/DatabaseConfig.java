@@ -81,7 +81,7 @@ public class DatabaseConfig extends AbstractR2dbcConfiguration {
                 )
                 .codecRegistrar(
                     GenericJsonbCodec.builder()
-                        .withJsonDTO(TodoData.class)
+                        .withJsonDataType(TodoData.class)
                         .build()
                 )
                 .build()

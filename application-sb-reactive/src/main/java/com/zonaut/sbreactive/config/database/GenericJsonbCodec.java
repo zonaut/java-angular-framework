@@ -19,7 +19,7 @@ import static io.r2dbc.postgresql.client.Parameter.NULL_VALUE;
 import static io.r2dbc.postgresql.message.Format.FORMAT_BINARY;
 import static org.postgresql.core.Oid.JSONB;
 
-public final class GenericJsonbCodec<T extends JsonDTO> implements Codec<T> {
+public final class GenericJsonbCodec<T extends JsonDataType> implements Codec<T> {
 
     private final ByteBufAllocator byteBufAllocator;
     private final Class<T> type;
@@ -83,9 +83,9 @@ public final class GenericJsonbCodec<T extends JsonDTO> implements Codec<T> {
 
     public static final class Builder {
 
-        private final Set<Class<? extends JsonDTO>> mappings = new HashSet<>();
+        private final Set<Class<? extends JsonDataType>> mappings = new HashSet<>();
 
-        public Builder withJsonDTO(Class<? extends JsonDTO> type) {
+        public Builder withJsonDataType(Class<? extends JsonDataType> type) {
             this.mappings.add(type);
             return this;
         }

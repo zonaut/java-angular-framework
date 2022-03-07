@@ -1,6 +1,6 @@
 package com.zonaut.sbreactive.domain;
 
-import com.zonaut.sbreactive.config.database.JsonDTO;
+import com.zonaut.sbreactive.config.database.JsonDataType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodoData extends JsonDTO {
+public class TodoData extends JsonDataType {
 
     private String title;
     private String somethingElse;
