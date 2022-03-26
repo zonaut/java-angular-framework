@@ -24,7 +24,13 @@ repositories {
 }
 
 dependencies {
-    //
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLand}"
+
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+    // Spatial data types for Jackson
+    implementation "com.bedatadriven:jackson-datatype-jts:${jacksonJtsVersion}"
+    implementation "org.json:json:${jsonVersion}"
 }
 
 test {

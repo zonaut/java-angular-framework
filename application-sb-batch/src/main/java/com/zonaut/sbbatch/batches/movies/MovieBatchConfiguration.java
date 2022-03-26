@@ -21,7 +21,7 @@ import org.springframework.core.io.Resource;
 
 import java.util.List;
 
-import static com.zonaut.sbbatch.config.JacksonConfig.OBJECT_MAPPER;
+import static com.zonaut.common.Common.OBJECT_MAPPER;
 
 @Log4j2
 @Configuration

@@ -9,7 +9,7 @@ import org.springframework.data.convert.ReadingConverter;
 
 import java.io.IOException;
 
-import static com.zonaut.sbreactive.config.JacksonConfig.OBJECT_MAPPER;
+import static com.zonaut.common.Common.OBJECT_MAPPER;
 
 @Log4j2
 @ReadingConverter

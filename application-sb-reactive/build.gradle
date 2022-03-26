@@ -51,10 +51,6 @@ dependencies {
     // API doc
     implementation "org.springdoc:springdoc-openapi-webflux-ui:${springOpenApiVersion}"
 
-    // Spatial data types for Jackson
-    implementation "com.bedatadriven:jackson-datatype-jts:${jacksonJtsVersion}"
-    implementation "org.json:json:${jsonVersion}"
-
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'

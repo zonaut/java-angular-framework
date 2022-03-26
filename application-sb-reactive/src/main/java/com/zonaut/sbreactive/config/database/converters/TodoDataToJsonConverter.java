@@ -8,7 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;
 import org.springframework.lang.NonNull;
 
-import static com.zonaut.sbreactive.config.JacksonConfig.OBJECT_MAPPER;
+import static com.zonaut.common.Common.OBJECT_MAPPER;
 
 @Log4j2
 @WritingConverter

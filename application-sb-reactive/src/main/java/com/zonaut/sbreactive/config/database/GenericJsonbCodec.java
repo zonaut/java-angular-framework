@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.zonaut.sbreactive.config.JacksonConfig.OBJECT_MAPPER;
+import static com.zonaut.common.Common.OBJECT_MAPPER;
 import static io.r2dbc.postgresql.client.Parameter.NULL_VALUE;
 import static io.r2dbc.postgresql.message.Format.FORMAT_BINARY;
 import static org.postgresql.core.Oid.JSONB;
