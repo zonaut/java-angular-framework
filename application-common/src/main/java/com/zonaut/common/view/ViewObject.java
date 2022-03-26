@@ -1,4 +1,4 @@
-package com.zonaut.sbreactive.common;
+package com.zonaut.common.view;
 
 import java.io.Serializable;
 

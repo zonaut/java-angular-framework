@@ -1,6 +1,6 @@
 package com.zonaut.sbreactive.domain;
 
-import com.zonaut.sbreactive.config.database.JsonDataType;
+import com.zonaut.common.database.JsonDataType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

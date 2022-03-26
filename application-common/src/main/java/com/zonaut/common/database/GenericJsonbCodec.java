@@ -1,4 +1,4 @@
-package com.zonaut.sbreactive.config.database;
+package com.zonaut.common.database;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.netty.buffer.ByteBuf;
@@ -8,16 +8,14 @@ import io.r2dbc.postgresql.codec.Codec;
 import io.r2dbc.postgresql.extension.CodecRegistrar;
 import io.r2dbc.postgresql.message.Format;
 import io.r2dbc.postgresql.util.ByteBufUtils;
-import org.springframework.lang.NonNull;
+import org.postgresql.core.Oid;
 import reactor.core.publisher.Mono;
+import reactor.util.annotation.NonNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.zonaut.common.Common.OBJECT_MAPPER;
-import static io.r2dbc.postgresql.client.Parameter.NULL_VALUE;
-import static io.r2dbc.postgresql.message.Format.FORMAT_BINARY;
-import static org.postgresql.core.Oid.JSONB;
 
 public final class GenericJsonbCodec<T extends JsonDataType> implements Codec<T> {
 
@@ -62,7 +60,7 @@ public final class GenericJsonbCodec<T extends JsonDataType> implements Codec<T>
     @Override
     @NonNull
     public Parameter encode(@NonNull Object value) {
-        return new Parameter(FORMAT_BINARY, this.oid, Mono.fromSupplier(() -> {
+        return new Parameter(Format.FORMAT_BINARY, this.oid, Mono.fromSupplier(() -> {
             try {
                 return ByteBufUtils.encode(this.byteBufAllocator, OBJECT_MAPPER.writeValueAsString(value));
             } catch (JsonProcessingException e) {
@@ -74,7 +72,7 @@ public final class GenericJsonbCodec<T extends JsonDataType> implements Codec<T>
     @Override
     @NonNull
     public Parameter encodeNull() {
-        return new Parameter(FORMAT_BINARY, this.oid, NULL_VALUE);
+        return new Parameter(Format.FORMAT_BINARY, this.oid, Parameter.NULL_VALUE);
     }
 
     public static Builder builder() {
@@ -94,7 +92,7 @@ public final class GenericJsonbCodec<T extends JsonDataType> implements Codec<T>
         public CodecRegistrar build() {
             return (connection, allocator, registry) -> {
                 mappings.forEach(type -> {
-                    registry.addLast(new GenericJsonbCodec(allocator, type, JSONB));
+                    registry.addLast(new GenericJsonbCodec(allocator, type, Oid.JSONB));
                 });
                 return Mono.empty();
             };

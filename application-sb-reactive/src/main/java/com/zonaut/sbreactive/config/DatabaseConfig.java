@@ -1,6 +1,6 @@
 package com.zonaut.sbreactive.config;
 
-import com.zonaut.sbreactive.config.database.GenericJsonbCodec;
+import com.zonaut.common.database.GenericJsonbCodec;
 import com.zonaut.sbreactive.config.database.PostgresqlR2dbcProperties;
 import com.zonaut.sbreactive.config.database.converters.JsonToTodoDataConverter;
 import com.zonaut.sbreactive.config.database.converters.TodoDataToJsonConverter;

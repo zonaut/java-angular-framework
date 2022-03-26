@@ -1,4 +1,4 @@
-package com.zonaut.sbreactive.config.database;
+package com.zonaut.common.database;
 
 import java.io.Serializable;
 

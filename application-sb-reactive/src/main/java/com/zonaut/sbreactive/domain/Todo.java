@@ -1,7 +1,7 @@
 package com.zonaut.sbreactive.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zonaut.sbreactive.common.ViewObject;
+import com.zonaut.common.view.ViewObject;
 import com.zonaut.sbreactive.types.TodoPriority;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
