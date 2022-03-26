@@ -9,7 +9,7 @@ services:
       - project-network
     restart: "no"
     environment:
-      POSTGRES_MULTIPLE_DATABASES: sb-reactive,sb-mvc
+      POSTGRES_MULTIPLE_DATABASES: sb-reactive,sb-batch
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
