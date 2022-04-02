@@ -8,6 +8,14 @@
 * update controller to update title, description, alarm
 * take properties from a test config to configure the postgres test container and use dynamic ports
 
+== application-sb-batch
+
+* ...
+
+== application-sb-quartz
+
+* ...
+
 == application-ui
 
 * create entry dashboard page

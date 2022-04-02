@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Random;
+
+import static com.zonaut.common.stubs.StubGeneratorUtil.*;
 
 public class MovieStubGenerator {
 
     public static final int NUMBER_OF_OBJECTS = 100;
-    public static final Random RANDOM = new Random();
     public static final boolean PRETTY_PRINT = false;
 
     public static void main(String[] args) throws IOException {
@@ -48,32 +48,20 @@ public class MovieStubGenerator {
     }
 
     private static void writeString(JsonGenerator generator, String field) throws IOException {
-        generator.writeStringField(field, generateRandomWords(1)[0]);
+        generator.writeStringField(field, randomWordsAsString(1));
     }
 
     private static void writeNumber(JsonGenerator generator, String field) throws IOException {
-        generator.writeNumberField(field, RANDOM.nextInt(1970, 2022));
+        generator.writeNumberField(field, randomIntBetween(1970, 2022));
     }
 
     private static void writeArray(JsonGenerator generator, String genres) throws IOException {
         generator.writeFieldName(genres);
         generator.writeStartArray();
-        for (String arg : generateRandomWords(3)) {
+        for (String arg : randomWords(3)) {
             generator.writeString(arg);
         }
         generator.writeEndArray();
-    }
-
-    private static String[] generateRandomWords(int numberOfWords) {
-        String[] randomStrings = new String[numberOfWords];
-        for (int i = 0; i < numberOfWords; i++) {
-            char[] word = new char[RANDOM.nextInt(8) + 3];
-            for (int j = 0; j < word.length; j++) {
-                word[j] = (char) ('a' + RANDOM.nextInt(26));
-            }
-            randomStrings[i] = new String(word);
-        }
-        return randomStrings;
     }
 
     private static String getAbsoluteFilePathToMoviesJsonFile() {
